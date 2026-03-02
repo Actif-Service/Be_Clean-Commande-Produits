@@ -12,7 +12,7 @@ function escapeHTML(str) {
 }
 
 // 🔹 Chantiers BE Clean (nom affiché + adresse envoyée par email)
-const chantiersClean = [
+const chantiersBE Clean = [
   { nom: "AKROPOLIS", adresse: "Luitberg, 25  1853 Strombeek-Bever" },
   { nom: "APOLLO 95-97", adresse: "Grotexinkellaan, 95-97  1853 Strombeek-Bever" },
   { nom: "ECTA", adresse: "Rue de Trèves, 49-51  1040 Etterbeek" },
@@ -26,7 +26,7 @@ const chantiersClean = [
 // 🔹 Remplissage du menu déroulant
 const chantierSelect = document.getElementById("chantier");
 
-chantiersClean.forEach(c => {
+chantiersBE Clean.forEach(c => {
   const option = document.createElement("option");
   option.value = c.adresse;      // Adresse envoyée dans l'email
   option.textContent = c.nom;    // Nom affiché à l'écran
@@ -110,7 +110,7 @@ produitsContainer.appendChild(autreDiv);
 document.getElementById("formCommande").addEventListener("submit", function(e) {
   e.preventDefault();
 
-  const societe = "Clean";
+  const societe = "BE Clean";
   const chantier = escapeHTML(document.getElementById("chantier").value.trim());
   const nom = escapeHTML(document.getElementById("nom").value.trim());
   const autre = escapeHTML(document.getElementById("autre").value.trim());
