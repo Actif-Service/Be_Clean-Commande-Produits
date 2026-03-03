@@ -1,5 +1,6 @@
 // 🔹 Protection anti-injection HTML
 function escapeHTML(str) {
+  if (!str) return "";
   return str.replace(/[&<>"']/g, function(m) {
     return ({
       '&': '&amp;',
@@ -11,29 +12,32 @@ function escapeHTML(str) {
   });
 }
 
-// 🔹 Chantiers BE Clean (nom affiché + adresse envoyée par email)
+// 🔹 ==========================
+// 🔹 CHANTIERS BE CLEAN
+// 🔹 ==========================
 const chantiersBEClean = [
-  { nom: "AKROPOLIS", adresse: "Luitberg, 25  1853 Strombeek-Bever" },
-  { nom: "APOLLO 95-97", adresse: "Grotexinkellaan, 95-97  1853 Strombeek-Bever" },
-  { nom: "ECTA", adresse: "Rue de Trèves, 49-51  1040 Etterbeek" },
-  { nom: "EPHA", adresse: "Rue de Trèves, 49-51  1040 Etterbeek" },
-  { nom: "ERS", adresse: "Rue de Trèves, 49-51  1040 Etterbeek" },
-  { nom: "GROENDAL", adresse: "Sint-Annalaan, 74  1800 Vilvoorde" },
-  { nom: "STONE", adresse: "Steenstraat, 59  1800 Vilvoorde" },
-  { nom: "BWT", adresse: "Leuvensesteenweg, 633  1930 Zaventem" },
+  { nom: "AKROPOLIS", adresse: "Luitberg, 25 1853 Strombeek-Bever" },
+  { nom: "APOLLO 95-97", adresse: "Grotexinkellaan, 95-97 1853 Strombeek-Bever" },
+  { nom: "ECTA", adresse: "Rue de Trèves, 49-51 1040 Etterbeek" },
+  { nom: "EPHA", adresse: "Rue de Trèves, 49-51 1040 Etterbeek" },
+  { nom: "ERS", adresse: "Rue de Trèves, 49-51 1040 Etterbeek" },
+  { nom: "GROENDAL", adresse: "Sint-Annalaan, 74 1800 Vilvoorde" },
+  { nom: "STONE", adresse: "Steenstraat, 59 1800 Vilvoorde" },
+  { nom: "BWT", adresse: "Leuvensesteenweg, 633 1930 Zaventem" }
 ];
 
-// 🔹 Remplissage du menu déroulant
 const chantierSelect = document.getElementById("chantier");
 
 chantiersBEClean.forEach(c => {
   const option = document.createElement("option");
-  option.value = c.adresse;      
-  option.textContent = c.nom;    
+  option.value = c.adresse;
+  option.textContent = c.nom;
   chantierSelect.appendChild(option);
 });
 
-// 🔹 Produits avec images (LISTE COMPLETE)
+// 🔹 ==========================
+// 🔹 PRODUITS COMPLETS
+// 🔹 ==========================
 const produits = [
   { nom: "Ajax citron", image: "https://actif-service.github.io/Commande-Produits/images/Ajax%20citron.jpg" },
   { nom: "Glass 2000 1 litre", image: "https://actif-service.github.io/Commande-Produits/images/Glass%202000%201%20litre.jpg" },
@@ -78,9 +82,9 @@ produits.forEach(p => {
     </div>
     <span>${p.nom}</span>
     <div class="quantite-container">
-      <button class="moins" type="button">-</button>
+      <button type="button" class="moins">-</button>
       <input type="number" min="0" value="0" class="quantite" data-nom="${p.nom}">
-      <button class="plus" type="button">+</button>
+      <button type="button" class="plus">+</button>
     </div>
   `;
 
@@ -97,7 +101,7 @@ produits.forEach(p => {
   });
 });
 
-// 🔹 Zone autre demande
+// 🔹 Zone "Autre demande"
 const autreDiv = document.createElement("div");
 autreDiv.className = "form-group";
 autreDiv.innerHTML = `
@@ -106,7 +110,7 @@ autreDiv.innerHTML = `
 `;
 produitsContainer.appendChild(autreDiv);
 
-// 🔹 Envoi EmailJS
+// 🔹 ENVOI EMAIL
 document.getElementById("formCommande").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -132,47 +136,26 @@ document.getElementById("formCommande").addEventListener("submit", function(e) {
   const dateStr = now.toLocaleString("fr-FR");
 
   let texteCommande = `
-  <div style="font-family:Arial,sans-serif; background-color:#f2f2f2; padding:15px;">
-    <h2 style="text-align:center;">Nouvelle commande produits – BE Clean</h2>
+  <div style="font-family:Arial,sans-serif;">
+    <h2>Nouvelle commande produits – BE Clean</h2>
     <p><strong>Société :</strong> ${societe}</p>
     <p><strong>Adresse chantier :</strong> ${chantier}</p>
     <p><strong>Nom :</strong> ${nom}</p>
     <p><strong>Date :</strong> ${dateStr}</p>
-
-    <table style="width:100%; border-collapse:collapse; margin-top:15px;">
-      <tr style="background-color:#1976d2; color:white;">
-        <th style="padding:6px; border:1px solid #ccc;">Produit</th>
-        <th style="padding:6px; border:1px solid #ccc;">Quantité</th>
-      </tr>
+    <ul>
   `;
 
-  let index = 0;
-
   document.querySelectorAll(".quantite").forEach(input => {
-    const qte = Number(input.value);
-    if (qte > 0) {
-      const background = index % 2 === 0 ? "#ffffff" : "#bbdefb";
-      texteCommande += `
-        <tr style="background-color:${background};">
-          <td style="padding:6px; border:1px solid #ccc;">${escapeHTML(input.dataset.nom)}</td>
-          <td style="padding:6px; border:1px solid #ccc; text-align:center;">${qte}</td>
-        </tr>
-      `;
-      index++;
+    if (Number(input.value) > 0) {
+      texteCommande += `<li>${escapeHTML(input.dataset.nom)} : ${input.value}</li>`;
     }
   });
 
   if (autre) {
-    texteCommande += `
-      <tr>
-        <td colspan="2" style="padding:8px; border:1px solid #ccc; background:#fff8e1;">
-          <strong>Autre demande :</strong> ${autre}
-        </td>
-      </tr>
-    `;
+    texteCommande += `<li><strong>Autre demande :</strong> ${autre}</li>`;
   }
 
-  texteCommande += "</table></div>";
+  texteCommande += "</ul></div>";
 
   emailjs.send("service_kt6gmbs", "template_53rynh4", {
     societe,
