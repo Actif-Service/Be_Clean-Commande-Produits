@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Commande de produits - BE Clean</title>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
 <link rel="stylesheet" href="style.css">
 
-</head>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  emailjs.init("UIMYUuF1YijZh1DFI");
+});
+</script>
 
+</head>
 <body>
 
+<!-- Logo -->
 <div class="logo">
-<img src="images/logo-actif-service.png">
+<img src="images/logo-actif-service.png" alt="Logo Actif Service">
 </div>
 
 <h1>Commande de produits</h1>
@@ -23,22 +27,22 @@
 
 <div class="ligne-formulaire">
 
-<div class="form-group">
-<label>Société</label>
-<input type="text" value="BE Clean" readonly>
-</div>
+  <div class="form-group">
+    <label>Société</label>
+    <input type="text" value="BE Clean" readonly>
+  </div>
 
-<div class="form-group">
-<label>Chantier</label>
-<select id="chantier" required>
-<option value="">-- Sélectionner --</option>
-</select>
-</div>
+  <div class="form-group">
+    <label>Chantier</label>
+    <select id="chantier" required>
+      <option value="">-- Sélectionner --</option>
+    </select>
+  </div>
 
-<div class="form-group">
-<label>Votre nom</label>
-<input type="text" id="nom" required>
-</div>
+  <div class="form-group">
+    <label>Votre nom</label>
+    <input type="text" id="nom" required>
+  </div>
 
 </div>
 
@@ -53,5 +57,6 @@
 
 <script src="app.js"></script>
 
+</form>
 </body>
 </html>
