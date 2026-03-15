@@ -110,12 +110,14 @@ const heure=maintenant.toLocaleTimeString("fr-BE",{hour:"2-digit",minute:"2-digi
 
 let tableau=`
 <table style="width:100%;border-collapse:collapse;font-family:Arial;font-size:14px">
+
 <thead>
 <tr style="background:#1976d2;color:white">
-<th style="border:1px solid #ccc;padding:10px">Produit</th>
-<th style="border:1px solid #ccc;padding:10px">Quantité</th>
+<th style="border:1px solid #ccc;padding:10px;text-align:left;width:85%">Produit</th>
+<th style="border:1px solid #ccc;padding:10px;text-align:center;width:15%">Qté</th>
 </tr>
 </thead>
+
 <tbody>
 `;
 
@@ -131,7 +133,7 @@ const couleur=ligne%2===0?"#bbdefb":"#ffffff";
 tableau+=`
 <tr style="background:${couleur}">
 <td style="border:1px solid #ccc;padding:10px">${escapeHTML(input.dataset.nom)}</td>
-<td style="border:1px solid #ccc;padding:10px">${input.value}</td>
+<td style="border:1px solid #ccc;padding:10px;text-align:center">${input.value}</td>
 </tr>
 `;
 
