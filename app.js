@@ -153,7 +153,7 @@ const messageHTML=`
 
 <td style="width:33%;text-align:left">
 <b>Société :</b> ${societe}<br>
-<b>Technicien :</b> ${nom}
+<b>Demandeur :</b> ${nom}
 </td>
 
 <td style="width:33%;text-align:center">
