@@ -1,57 +1,47 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Commande de produits - BE Clean</title>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Commande de produits</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div style="text-align:center; margin-bottom:60px;">
-<img src="https://actif-service.github.io/Commande-Produits/images/logo.jpg"
-width="300">
-</div>
+  <!-- Logo -->
+  <div class="logo-container">
+    <img src="images/actif logo.jpg" alt="Logo" class="logo">
+  </div>
 
-<h1>Commande de produits</h1>
+  <h1>Commande de produits</h1>
 
-<form id="formCommande">
+  <!-- FORMULAIRE COMPLET -->
+  <form id="formCommande" action="send_mail.php" method="post">
 
-<div class="ligne-formulaire">
+    <div class="form-group">
+      <label for="societe">Nom de la société :</label>
+      <input type="text" id="societe" name="societe" placeholder="Votre société" required>
+    </div>
 
-<div class="form-group">
-<label>Société</label>
-<input type="text" value="BE Clean" readonly>
-</div>
+    <div class="form-group">
+      <label for="chantier">Chantier :</label>
+      <input type="text" id="chantier" name="chantier" placeholder="Nom du chantier" required>
+    </div>
 
-<div class="form-group">
-<label>Chantier</label>
-<select id="chantier" required>
-<option value="">-- Sélectionner --</option>
-</select>
-</div>
+    <div class="form-group">
+      <label for="nom">Votre nom :</label>
+      <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+    </div>
 
-<div class="form-group">
-<label>Demandeur</label>
-<input type="text" id="nom" required>
-</div>
+    <!-- Produits -->
+    <div id="produits"></div>
 
-</div>
+    <!-- Champ caché pour résumé -->
+    <input type="hidden" name="commande" id="commandeHidden">
 
-<div id="produits"></div>
+    <button type="submit">Envoyer la commande</button>
 
-<div class="form-group">
-<label>Autre demande</label>
-<textarea id="autre"></textarea>
-</div>
+  </form>
 
-<button type="submit">Envoyer la commande</button>
-
-</form>
-
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 </body>
 </html>
