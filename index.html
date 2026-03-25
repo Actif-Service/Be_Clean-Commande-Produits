@@ -1,59 +1,53 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
-<meta charset="UTF-8">
-<title>Commande de produits - BE Clean</title>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande de produits - BE Clean</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <!-- Logo -->
-  <div style="text-align:center; margin-bottom:60px;">
-      <img src="https://actif-service.github.io/Commande-Produits/images/logo.jpg"
-           alt="Actif Service"
-           width="300"
-           style="display:block; margin:0 auto;">
-    </div>
+<div style="text-align:center; margin-bottom:60px;">
+    <img src="https://actif-service.github.io/Commande-Produits/images/logo.jpg"
+         alt="Actif Service"
+         width="300"
+         style="display:block; margin:0 auto;">
+</div>
 
 <h1>Commande de produits</h1>
 
 <form id="formCommande">
+    <div class="ligne-formulaire">
+        <div class="form-group">
+            <label>Société</label>
+            <input type="text" id="societe" value="" readonly>
+        </div>
 
-<div class="ligne-formulaire">
+        <div class="form-group">
+            <label>Chantier</label>
+            <select id="chantier" required>
+                <option value="">-- Sélectionner --</option>
+            </select>
+        </div>
 
-<div class="form-group">
-<label>Société</label>
-<input type="text" value="BE Clean" readonly>
-</div>
+        <div class="form-group">
+            <label>Demandeur</label>
+            <input type="text" id="nom" required>
+        </div>
+    </div>
 
-<div class="form-group">
-<label>Chantier</label>
-<select id="chantier" required>
-<option value="">-- Sélectionner --</option>
-</select>
-</div>
+    <div id="produits"></div>
 
-<div class="form-group">
-<label>Demandeur</label>
-<input type="text" id="nom" required>
-</div>
+    <div class="form-group">
+        <label>Autre demande</label>
+        <textarea id="autre"></textarea>
+    </div>
 
-</div>
-
-<div id="produits"></div>
-
-<div class="form-group">
-<label>Autre demande</label>
-<textarea id="autre"></textarea>
-</div>
-
-<button type="submit">Envoyer la commande</button>
+    <button type="submit">Envoyer la commande</button>
+</form>
 
 <script src="app.js"></script>
 
