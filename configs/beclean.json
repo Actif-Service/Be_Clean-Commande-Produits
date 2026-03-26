@@ -9,7 +9,7 @@
     { "nom": "ERS", "adresse": "Rue de Trèves, 49-51 1040 Etterbeek" },
     { "nom": "GROENDAL", "adresse": "Sint-Annalaan, 74 1800 Vilvoorde" },
     { "nom": "STONE", "adresse": "Steenstraat, 59 1800 Vilvoorde" },
-    { "nom": "BWT", "adresse": "Leuvensesteenweg, 633 1930 Zaventem" },
+    { "nom": "BWT", "adresse": "Leuvensesteenweg, 633 1930 Zaventem" }
   ],
   "produits": [
     { "nom": "Ajax citron", "image": "https://actif-service.github.io/Commande-Produits/images/Ajax%20citron.jpg" },
