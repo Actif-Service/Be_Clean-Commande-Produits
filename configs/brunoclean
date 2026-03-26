@@ -13,7 +13,6 @@
     { "nom": "CITY GATE III", "adresse": "Kerklaan, 63 B/C/D  1830 Machelen" },
     { "nom": "MAETERLINCK", "adresse": "J. Van Elewijckstraat, 88-90  1853 Strombeek-Bever" },
     { "nom": "BOENDAL", "adresse": "Chaussée de Boendal, 190  1050 Ixelles" }
-
   ],
   "produits": [
     { "nom": "Ajax citron", "image": "https://actif-service.github.io/Commande-Produits/images/Ajax%20citron.jpg" },
