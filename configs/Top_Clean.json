@@ -3,16 +3,10 @@
   "email": "noureddine.ayad@actif-service.be",
   "chantiers": [
   { "nom": "KANTAR INSIGHTS", "adresse": "Boulevard Saint-Lazard,4  1210 Saint-Josse-ten-Noode" },
-    { "nom": "Metal", "adresse": "Drève de Richelle, 161  1410 Waterloo" },
-    { "nom": "ERGON", "adresse": "Drève de Richelle, 161  1410 Waterloo" },
-    { "nom": "EUROPLAFOND", "adresse": "Ruisbroeksesteenweg, 235  1601 Sint-Pieters-Leeuw" },
-    { "nom": "FIABILIS CONSULTING", "adresse": "Boulevard de l'Humanité, 233/10  1620 Drogenbos" },
-    { "nom": "VIVE VERDE", "adresse": "Rue de Laubespin, 82-84-86-104-106  1090 Jette" },
-    { "nom": "RING CONSULT (1ère Agence)", "adresse": "James Ensorlaan, 39  1800 Vilvoorde" },
-    { "nom": "RING CONSULT (2ème Agence)", "adresse": "Nowelei, 26  1800 Vilvoorde" },
-    { "nom": "PETIT ENVOL (Crèche)", "adresse": "Rue au bois, 513  1150 Woluwe Saint-Pierre" }
-
-  ],
+    { "nom": "METAL PACKAGING", "adresse": "Rue de Trèves,59-61  1040 Etterbeek" },
+    { "nom": "URBANTZ", "adresse": "Avenue Louise, 251  1050 Ixelles" },
+    { "nom": "ARTS 19 (Eglise de Jésus)", "adresse": "Rue d'Idalie, 11-13  1050 Ixelles" }
+      ],
   "produits": [
     { "nom": "Ajax citron", "image": "https://actif-service.github.io/Commande-Produits/images/Ajax%20citron.jpg" },
     { "nom": "Glass 2000 1 litre", "image": "https://actif-service.github.io/Commande-Produits/images/Glass%202000%201%20litre.jpg" },
