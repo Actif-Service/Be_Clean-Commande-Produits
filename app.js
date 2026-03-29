@@ -9,17 +9,14 @@ function escapeHTML(str){
   });
 }
 
-// 🔥 récupérer le client dans l'URL
 const params = new URLSearchParams(window.location.search);
 const client = params.get("client");
 
-// ❌ si pas de client
 if(!client){
   document.body.innerHTML = "<h2 style='text-align:center'>Lien invalide</h2>";
   throw new Error("Client manquant");
 }
 
-// 🔥 charger la config
 fetch(`configs/${client}.json`)
   .then(res => {
     if (!res.ok) throw new Error("Config introuvable");
@@ -33,18 +30,14 @@ fetch(`configs/${client}.json`)
   });
 
 function initApp(CONFIG){
-  const { societe, chantiers, produits, email } = CONFIG;
+  const { societe, chantiers, produits } = CONFIG;
 
-  // Mettre à jour dynamiquement le titre de la page avec le nom de la société
   document.title = `Commande de produits - ${societe}`;
-
-  // Remplir le champ société avec la valeur dynamique
-  document.getElementById("societe").value = societe ;
+  document.getElementById("societe").value = societe;
 
   const chantierSelect = document.getElementById("chantier");
   const produitsContainer = document.getElementById("produits");
 
-  // Remplir la liste des chantiers
   chantiers.forEach(c => {
     const option = document.createElement("option");
     option.value = c.nom;
@@ -52,7 +45,6 @@ function initApp(CONFIG){
     chantierSelect.appendChild(option);
   });
 
-  // Remplir la liste des produits
   produits.forEach(p => {
     const div = document.createElement("div");
     div.className = "produit";
@@ -80,75 +72,124 @@ function initApp(CONFIG){
     });
   });
 
-  // Gestion du formulaire
-  document.getElementById("formCommande").addEventListener("submit", function (e) {
+  document.getElementById("formCommande").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const chantier = escapeHTML(document.getElementById("chantier").value);
     const nom = escapeHTML(document.getElementById("nom").value);
     const autre = escapeHTML(document.getElementById("autre").value);
 
+    if(!chantier || !nom){
+      alert("Veuillez remplir tous les champs");
+      return;
+    }
+
     const maintenant = new Date();
     const date = maintenant.toLocaleDateString("fr-BE");
     const heure = maintenant.toLocaleTimeString("fr-BE", { hour: "2-digit", minute: "2-digit" });
 
+    // 📄 PDF
+    const doc = genererPDF({
+      societe,
+      chantier,
+      nom,
+      date,
+      heure,
+      autre,
+      chantiers
+    });
+
+    doc.save(`commande_${chantier}.pdf`);
+
+    // 📧 EMAIL
     const messageHTML = `
-      <div style="font-family:Arial, sans-serif; font-size:14px; color:#000;">
-        <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
-          <tr>
-            <td style="width:33%;text-align:left;">
-              Société : ${societe}<br>
-              <b>Demandeur :</b> ${nom}
-            </td>
-            <td style="width:33%;text-align:center; border: 4px solid #4CAF50; background:#f0fff0; border-radius:8px; padding:12px;">
-              <div style="font-size:14px; color:#666;"> </div>
-              <div style="font-size:18px; font-weight:bold; color:#000;">${chantier}</div>
-              <div style="font-size:14px; color:#666; margin-top:4px;">${chantiers.find(c => c.nom === chantier)?.adresse || ""}</div>
-            </td>
-            <td style="width:33%;text-align:right;">
-              ${date}<br>${heure}
-            </td>
-          </tr>
-        </table>
-
-        <table style="width:100%;border-collapse:collapse; font-family:Arial, sans-serif; font-size:14px;">
-          <thead>
-            <tr style="background:#1976d2; color:white;">
-              <th style="border:1px solid #ccc; padding:10px; text-align:left;">Produit</th>
-              <th style="border:1px solid #ccc; padding:10px; text-align:center; width:80px;">Qté</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${[...document.querySelectorAll(".quantite")]
-            .filter(input => Number(input.value) > 0)
-            .map((input, i) => `
-              <tr style="background:${i % 2 === 0 ? '#ffffff' : '#cde6ff'};">
-                <td style="border:1px solid #ccc; padding:10px;">${escapeHTML(input.dataset.nom)}</td>
-                <td style="border:1px solid #ccc; padding:10px; text-align:center;">${input.value}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-
-        ${autre ? `<p><b>Autre demande :</b><br>${autre}</p>` : ''}
-      </div>
+      <b>Société :</b> ${societe}<br>
+      <b>Demandeur :</b> ${nom}<br>
+      <b>Chantier :</b> ${chantier}<br><br>
+      Commande envoyée.
     `;
 
     emailjs.send("service_kt6gmbs", "template_53rynh4", {
       societe,
       chantier,
       nom,
-      commande: messageHTML,
-      to_email: email
+      commande: messageHTML
     }).then(() => {
-      alert("✅ Commande envoyée avec succès !");
-      document.getElementById("chantier").value = "";
-      document.getElementById("nom").value = "";
-      document.getElementById("autre").value = "";
+      alert("Commande envoyée !");
+      document.getElementById("formCommande").reset();
       document.querySelectorAll(".quantite").forEach(i => i.value = 0);
-    }).catch(error => {
-      alert("❌ Erreur : " + error.text);
-      console.error("Erreur EmailJS :", error);
     });
   });
+
+  // 🧾 PDF DESIGN
+  function genererPDF({ societe, chantier, nom, date, heure, autre, chantiers }) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.setTextColor(25, 118, 210);
+    doc.text("Commande de produits", 105, 15, { align: "center" });
+
+    doc.setFontSize(10);
+    doc.setTextColor(0);
+
+    doc.text(`Société : ${societe}`, 10, 30);
+    doc.text(`Demandeur : ${nom}`, 10, 36);
+
+    doc.text(`${date}`, 150, 30);
+    doc.text(`${heure}`, 150, 36);
+
+    const chantierData = chantiers.find(c => c.nom === chantier);
+
+    doc.setDrawColor(165, 214, 167);
+    doc.setFillColor(240, 255, 240);
+    doc.roundedRect(60, 45, 90, 30, 3, 3, "FD");
+
+    doc.setFontSize(9);
+    doc.setTextColor(100);
+    doc.text("CHANTIER", 105, 52, { align: "center" });
+
+    doc.setFontSize(13);
+    doc.setTextColor(0);
+    doc.text(chantier, 105, 60, { align: "center" });
+
+    if (chantierData?.adresse) {
+      doc.setFontSize(9);
+      doc.setTextColor(80);
+      const adresse = doc.splitTextToSize(chantierData.adresse, 80);
+      doc.text(adresse, 105, 68, { align: "center" });
+    }
+
+    const produits = [...document.querySelectorAll(".quantite")]
+      .filter(input => Number(input.value) > 0)
+      .map(input => [input.dataset.nom, input.value]);
+
+    doc.autoTable({
+      startY: 85,
+      head: [["Produit", "Qté"]],
+      body: produits,
+      theme: "grid",
+      headStyles: {
+        fillColor: [25, 118, 210],
+        textColor: 255
+      },
+      columnStyles: {
+        1: { halign: "center", cellWidth: 30 }
+      },
+      alternateRowStyles: {
+        fillColor: [205, 230, 255]
+      }
+    });
+
+    if (autre) {
+      const y = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(10);
+      doc.text("Autre demande :", 10, y);
+
+      const texte = doc.splitTextToSize(autre, 180);
+      doc.text(texte, 10, y + 6);
+    }
+
+    return doc;
+  }
 }
