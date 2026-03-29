@@ -140,9 +140,12 @@ function initApp(CONFIG){
       nom,
       commande: messageHTML
     }).then(() => {
-      alert("Commande envoyée !");
-      document.getElementById("formCommande").reset();
-      document.querySelectorAll(".quantite").forEach(i => i.value = 0);
-    });
+  alert("✅ Commande envoyée !");
+  document.getElementById("chantier").value = "";
+  document.getElementById("nom").value = "";
+  document.getElementById("autre").value = "";
+  document.querySelectorAll(".quantite").forEach(i => i.value = 0);
+});
+    
   });
 }
