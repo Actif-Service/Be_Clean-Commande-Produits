@@ -33,7 +33,7 @@ fetch(`configs/${client}.json`)
   });
 
 function initApp(CONFIG){
-  const { societe, chantiers, produits } = CONFIG;
+  const { societe, chantiers, produits, email } = CONFIG;
 
   // Mettre à jour dynamiquement le titre de la page avec le nom de la société
   document.title = `Commande de produits - ${societe}`;
@@ -97,11 +97,11 @@ function initApp(CONFIG){
         <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
           <tr>
             <td style="width:33%;text-align:left;">
-              <b>Société :</b> ${societe}<br>
+              <b>Société : ${societe}</b><br>
               <b>Demandeur :</b> ${nom}
             </td>
             <td style="width:33%;text-align:center; border: 4px solid #4CAF50; background:#f0fff0; border-radius:8px; padding:12px;">
-              <div style="font-size:14px; color:#666;"></div>
+              <div style="font-size:14px; color:#666;">CHANTIER</div>
               <div style="font-size:18px; font-weight:bold; color:#000;">${chantier}</div>
               <div style="font-size:14px; color:#666; margin-top:4px;">${chantiers.find(c => c.nom === chantier)?.adresse || ""}</div>
             </td>
@@ -138,11 +138,17 @@ function initApp(CONFIG){
       societe,
       chantier,
       nom,
-      commande: messageHTML
+      commande: messageHTML,
+      to_email: email
     }).then(() => {
-      alert("Commande envoyée !");
-      document.getElementById("formCommande").reset();
+      alert("✅ Commande envoyée avec succès !");
+      document.getElementById("chantier").value = "";
+      document.getElementById("nom").value = "";
+      document.getElementById("autre").value = "";
       document.querySelectorAll(".quantite").forEach(i => i.value = 0);
+    }).catch(error => {
+      alert("❌ Erreur : " + error.text);
+      console.error("Erreur EmailJS :", error);
     });
   });
 }
