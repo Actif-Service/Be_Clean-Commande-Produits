@@ -2,7 +2,7 @@
   "societe": "Neghina Nicusor",
   "email": "noureddine.ayad@actif-service.be",
   "chantiers": [
-    { "nom": "VME ASTRID", "adresse": "Koningin Astridlaan, 59A & 59B  1780 Wemmel" },
+    { "nom": "VME ASTRID", "adresse": "Koningin Astridlaan, 59A & 59B  1780 Wemmel" }
       ],
   "produits": [
     { "nom": "Ajax citron", "image": "https://actif-service.github.io/Commande-Produits/images/Ajax%20citron.jpg" },
